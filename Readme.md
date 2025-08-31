@@ -83,3 +83,22 @@ Sometimes the model running inside the container may **hang indefinitely**.
      ```
 
 ---
+
+## 👩‍💻 Development
+
+### Requirements
+- .NET 8.0  
+- Kokoro-FastAPI ([Quick Start](https://github.com/remsky/Kokoro-FastAPI/tree/release))  
+- Docker  
+
+---
+
+## 📋 Roadmap / TODO
+- [ ] Improve handling of infinite loading in the container.  
+- [ ] Auto-launch Docker container if already installed.  
+- [ ] Fix Docker restart edge cases.  
+
+---
+
+## 📜 License
+MIT License © 2025 [Bortronx](https://github.com/Bortronx)
