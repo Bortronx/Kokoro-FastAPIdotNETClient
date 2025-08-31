@@ -39,7 +39,7 @@ class Program
         int StartWordIndex = 0;
         int LastLineIndex = 0;
         int LastWordIndex = 0;
-        bool IsManualParameterSelectionEnabled = false;
+        bool IsManualParameterSelectionEnabled = true;
         int StartFromChunk= 0;
         int NumFailedSplits = 0;
 
@@ -119,7 +119,7 @@ class Program
             Console.WriteLine("StartFromChunk=<int> - Chunk to start from");
             Console.WriteLine("Continue=<int,int> - Continue from a specific line and word index.");
             Console.WriteLine("FileFormat=<string> - Ex: mp3");
-            Console.WriteLine("DockerTTSContainerID=<string> - Set the Docker TTS Container ID.");
+            Console.WriteLine("DockerTTSContainerID=<string> - Set the Docker TTS Container ID. This is required for restarting the API.");
             Console.WriteLine("RestartAPI=<bool> - Restarts API. True only option");
             Console.WriteLine("|---------------------------------------------|");
 
