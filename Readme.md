@@ -1,54 +1,105 @@
-# Kokoro-FastAPI .NET Client
+# Kokoro-FastAPI .NET Client  
 
-TTS Kokoro-FastAPI .NET Client for long files.  This speeds up and give a lot of control over the conversion of long text files to speech using .NET
+[![.NET 8.0](https://img.shields.io/badge/.NET-8.0-blue.svg?logo=dotnet)](https://dotnet.microsoft.com/)  
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker)](https://www.docker.com/)  
+[![Kokoro-FastAPI](https://img.shields.io/badge/Kokoro-FastAPI-Release-green)](https://github.com/remsky/Kokoro-FastAPI/tree/release)  
 
+A **.NET Client** for [Kokoro-FastAPI](https://github.com/remsky/Kokoro-FastAPI), built to handle **long-file text-to-speech (TTS)** efficiently.  
+It improves performance and provides greater control over converting long text files into speech.
 
+---
 
-## Build
-### PreRequisites
-- .NET
-- Docker
-  - KokoroTTS Docker
-    - See Quick Start (docker compose) https://github.com/remsky/Kokoro-FastAPI/tree/release 
+## 🚀 Features
+- Convert **long `.txt` files** into speech using Kokoro-FastAPI.  
+- Fine-grained control over chunk size, starting points, and continuation.  
+- Automatic **Docker container restart** handling.  
+- Configurable **voice, model, and speed**.  
 
+---
 
-Launch Server On Docker
-1 - Place books in .txt format next to the executable. 
-    You can use Calibre Converter to convert book from pdf/epub format to .txt (https://calibre-ebook.com/).
-2 - Double click the executable Run the application. See the messages on the window for more info
+## 📦 Build
 
-Arguments:
-    NextChunkIndex=<int> - Set the next chunk index.
-    OutputFolderName=<string> - Set the output folder name.
-    LastLineIndex=<int> - Set the last line index.
-    LastWordIndex=<int> - Set the last word index.
-    MaxCharacters=<int> - Set the maximum number of characters per chunk.
-    Model=<string> - Set the model to use.
-    Voice=<string> - Set the voice to use.
-    Speed=<float> - Set the speed of the voice.
-    Continue=<int,int> - Continue from a specific line and word index.
-    IsManual=<bool> - Enable manual parameter selection.
-    StartFromChunk=<int>
-    DockerTTSContainerID=<string> - Set the Docker TTS Container ID.This is required for restarting the API.
+### ✅ Prerequisites
+- [.NET 8.0](https://dotnet.microsoft.com/)  
+- [Docker](https://www.docker.com/)  
+  - [KokoroTTS Docker](https://github.com/remsky/Kokoro-FastAPI/tree/release)  
 
-To quickly run ignoring all input rung from cmd using the following instead of step 2:
-KokoroFastApiUser.exe IsManual=false;
+---
 
-Example:
+### ▶️ Launch Server on Docker
+1. Place your books in **`.txt` format** next to the executable.  
+   - Use [Calibre Converter](https://calibre-ebook.com/) to convert `.pdf`/`.epub` → `.txt`.  
+2. Double-click the executable to start the app.  
+   - Watch the terminal window for logs and status updates.
+
+---
+
+## ⚙️ Command-Line Arguments
+
+| Argument                        | Type     | Description |
+|---------------------------------|----------|-------------|
+| `NextChunkIndex=<int>`          | Integer  | Set the next chunk index. |
+| `OutputFolderName=<string>`     | String   | Set the output folder name. |
+| `LastLineIndex=<int>`           | Integer  | Set the last line index. |
+| `LastWordIndex=<int>`           | Integer  | Set the last word index. |
+| `MaxCharacters=<int>`           | Integer  | Maximum characters per chunk. |
+| `Model=<string>`                | String   | TTS model to use. |
+| `Voice=<string>`                | String   | Voice to use. |
+| `Speed=<float>`                 | Float    | Voice playback speed. |
+| `Continue=<int,int>`            | Tuple    | Continue from line + word index. |
+| `IsManual=<bool>`               | Boolean  | Enable/disable manual parameter selection. |
+| `StartFromChunk=<int>`          | Integer  | Resume from a specific chunk. |
+| `DockerTTSContainerID=<string>`| String   | Docker TTS Container ID *(required for restart)*. |
+
+---
+
+### 🔧 Quick Run
+Skip manual inputs and run directly from CMD:
+
+```bash
+KokoroFastApiUser.exe IsManual=false
+```
+
+---
+
+### 💡 Example
+```bash
 KokoroFastApiUser.exe Voice=af_sky StartFromChunk=4895
+```
 
-Sometimes the model running on the container loads to infinity. When this happens the software tries to restart the docker container. If that fails copy the chunk number where you left off and manually restart the docker container and use the chunk number as the StartFromChunk parameter to continue the process.
+---
 
+## ⚠️ Troubleshooting
 
-## Development
+Sometimes the model running inside the container may **hang indefinitely**.  
+
+- The client will attempt to automatically restart the Docker container.  
+- If restart fails:  
+  1. Copy the chunk number where processing stopped.  
+  2. Manually restart the Docker container.  
+  3. Resume with the following command:  
+
+     ```bash
+     KokoroFastApiUser.exe StartFromChunk=<chunkNumber>
+     ```
+
+---
+
+## 👩‍💻 Development
 
 ### Requirements
-- Net 8.0 Framework
-- Kokoro-FastAPI
-    - See Quick Start (docker compose) https://github.com/remsky/Kokoro-FastAPI/tree/release 
-- Docker
+- .NET 8.0  
+- Kokoro-FastAPI ([Quick Start](https://github.com/remsky/Kokoro-FastAPI/tree/release))  
+- Docker  
 
-### TODO
-- [ ] Find a better way to manage infinite loading on the container. 
-- [ ] Launch Dockered conatiner automatically if already installed
-- [ ] Fix Docker Restarting issues
+---
+
+## 📋 Roadmap / TODO
+- [ ] Improve handling of infinite loading in the container.  
+- [ ] Auto-launch Docker container if already installed.  
+- [ ] Fix Docker restart edge cases.  
+
+---
+
+## 📜 License
+MIT License © 2025 [Bortronx](https://github.com/Bortronx)

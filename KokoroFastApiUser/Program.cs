@@ -18,6 +18,7 @@ class Program
     private static string OutputFolderName = "Output";
     private static int ExceptionCount = 0;
     private static string DockerTTSContainerID = "900d87d42630e13c9335230aa60464a43656c8d29bb7d5a88158575f639ccb0f";
+    private static string LocalAPIURL = "http://localhost:8880/v1/audio/speech";
 
     private static DirectoryInfo CurrentOutputDirectory;
 
@@ -89,6 +90,9 @@ class Program
                     case "DockerTTSContainerID":
                         DockerTTSContainerID = value;
                         break;
+                    case "LocalAPIURL":
+                        LocalAPIURL = value;
+                        break;
                     case "RestartAPI":
                         if (bool.Parse(value))
                         {
@@ -120,6 +124,7 @@ class Program
             Console.WriteLine("Continue=<int,int> - Continue from a specific line and word index.");
             Console.WriteLine("FileFormat=<string> - Ex: mp3");
             Console.WriteLine("DockerTTSContainerID=<string> - Set the Docker TTS Container ID. This is required for restarting the API.");
+            Console.WriteLine("LocalAPIURL=<string> - KokoroTTS FastAPI local host url");
             Console.WriteLine("RestartAPI=<bool> - Restarts API. True only option");
             Console.WriteLine("|---------------------------------------------|");
 
@@ -302,7 +307,7 @@ class Program
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-                HttpResponseMessage response = await client.PostAsync("http://localhost:8880/v1/audio/speech", content);
+                HttpResponseMessage response = await client.PostAsync(LocalAPIURL, content);
 
                 if (response.IsSuccessStatusCode)
                 {
