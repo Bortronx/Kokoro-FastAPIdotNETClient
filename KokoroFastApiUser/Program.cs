@@ -26,16 +26,27 @@ class Program
     {
        
 
+        /*
+         * API Paramameters:
+         */
+        string Model = "kokoro";
+        string Voice = "af_bella";
+        float Speed = 1.0f;
+        string FileFormat = "mp3";
+        string LanguageCode = "";
+        /*
+         * Client Paramameters:
+         */
+        Dictionary<string, string> LanguageCodeOptions = new Dictionary<string, string>
+        {
+            { "Spanish", "e" },
+        };
         bool IsEndOfFile = false;
         string LastAudioFileName = "output";
-        string FileFormat = "mp3";
         string NextTextToConvert = "";
         string FileNameWithExtension = "";
         string FileName = "";
         int MaxBytes = 500;
-        string Model = "kokoro";
-        string Voice = "af_bella";
-        float Speed = 1.0f;
         int StartLineIndex = 0;
         int StartWordIndex = 0;
         int LastLineIndex = 0;
@@ -92,6 +103,12 @@ class Program
                         break;
                     case "LocalAPIURL":
                         LocalAPIURL = value;
+                        break;
+                    case "LanguageCode":
+                        if (LanguageCodeOptions.ContainsKey(value))
+                        {
+                            LanguageCode = LanguageCodeOptions[value];
+                        }
                         break;
                     case "RestartAPI":
                         if (bool.Parse(value))
@@ -204,7 +221,7 @@ class Program
                         {
                             StartFromChunk = 0;
 
-                            bool IsSucessfull = await ConvertTextToAudio(NextTextToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio);
+                            bool IsSucessfull = await ConvertTextToAudio(NextTextToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio, LanguageCode);
 
                             if (!IsSucessfull)
                             {
@@ -214,7 +231,7 @@ class Program
 
                                 // Convert the first half of the words
 
-                                IsSucessfull = await ConvertTextToAudio(HalfWordsToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio);
+                                IsSucessfull = await ConvertTextToAudio(HalfWordsToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio, LanguageCode);
 
                                 NextChunkIndex++;
 
@@ -222,7 +239,7 @@ class Program
                                  
                                 var SecondHalfWordsToConvert = string.Join(" ", NextTextToConvert.Split(' ').Skip(halfWords)) + " ";
 
-                                IsSucessfull = await ConvertTextToAudio(SecondHalfWordsToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio);
+                                IsSucessfull = await ConvertTextToAudio(SecondHalfWordsToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio, LanguageCode);
 
                                 if (!IsSucessfull)
                                 {
@@ -254,7 +271,7 @@ class Program
 
             }
 
-            await ConvertTextToAudio(NextTextToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio);
+            await ConvertTextToAudio(NextTextToConvert, FileName, FileFormat, Model, Voice, Speed, NumConvertedTextsToAudio, LanguageCode);
 
             // Print Last Line and Word
             Console.WriteLine($"Last Line: {LastLineIndex} Last WordIndex: {LastWordIndex}");
@@ -274,7 +291,7 @@ class Program
         Console.ReadLine();
     }
 
-    public static async Task<bool> ConvertTextToAudio(string NextTextToConvert, string LastAudioFileName, string FileFormat, string Model, string Voice, float Speed, int NumExpectedConvertedTextsToAudio = 100)
+    public static async Task<bool> ConvertTextToAudio(string NextTextToConvert, string LastAudioFileName, string FileFormat, string Model, string Voice, float Speed, int NumExpectedConvertedTextsToAudio = 100, string LanguageCode = "")
     {
 
         string json = "";
@@ -299,7 +316,8 @@ class Program
                     input = NextTextToConvert,
                     voice = Voice,
                     response_format = FileFormat, // Supported: mp3, wav, opus, flac
-                    speed = Speed
+                    speed = Speed,
+                    lang_code = LanguageCode
                 };
 
 
