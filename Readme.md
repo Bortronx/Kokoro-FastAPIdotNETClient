@@ -2,7 +2,6 @@
 
 [![.NET 8.0](https://img.shields.io/badge/.NET-8.0-blue.svg?logo=dotnet)](https://dotnet.microsoft.com/)  
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker)](https://www.docker.com/)  
-[![Kokoro-FastAPI](https://img.shields.io/badge/Kokoro-FastAPI-Release-green)](https://github.com/remsky/Kokoro-FastAPI/tree/release)  
 
 A **.NET Client** for [Kokoro-FastAPI](https://github.com/remsky/Kokoro-FastAPI), built to handle **long-file text-to-speech (TTS)** efficiently.  
 It improves performance and provides greater control over converting long text files into speech.
